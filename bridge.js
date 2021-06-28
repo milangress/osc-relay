@@ -16,11 +16,10 @@ const io = require("socket.io")(3000, options);
 var osc = require('node-osc')
 
 
-io.on("connection", socket => { /* ... */ });
 
 io.on("connect", () => {
   // either with send()
-  io.send("Conected to Server");
+  io.send("Connected a User to Server");
 
   // or with emit() and custom event names
   io.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
