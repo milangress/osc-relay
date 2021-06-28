@@ -1,0 +1,12 @@
+{
+	"name": "osc-relay",
+	"description": "OSC",
+	"scripts": {
+		"start": "node bridge.js"
+	},
+	"version": "0.0.1",
+	"dependencies": {
+		"node-osc": "^1.2.0",
+		"socket.io": "^1.7.4"
+	}
+}
