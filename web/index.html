@@ -20,7 +20,7 @@ Under the hood what really happens is:
 <pre>
         OSC app --[TCP/UDP]--> bridge.js oscServer:3333 ; bridge.js socketio client --[WebSockets]--> website app.js
 
-        website app.js --[WebSockets]--> bridge.js socket.io server:8081 ; bridge.js oscClient --[TCP/UDP]--> OSC app:3334    
+        website app.js --[WebSockets]--> bridge.js socket.io server:8081 ; bridge.js oscClient --[TCP/UDP]--> OSC app:3334
 </pre>
 
 <hr />
@@ -29,11 +29,15 @@ Received from an OSC app/device at : <div id="status"></div>
 
 <hr />
 
-<script src="http://127.0.0.1:8081/socket.io/socket.io.js"></script>
+<div id="log">
+
+</div>
+
+<script src="http://127.0.0.1:3000/socket.io/socket.io.js"></script>
 
 <script>
-   var socket = io('http://127.0.0.1:8081');
-   socket.on('connect', function() {
+    var socket = io('127.0.0.1:3000');
+    socket.on('connect', function() {
         // sends to socket.io server the host/port of oscServer
         // and oscClient
         socket.emit('config',
@@ -51,9 +55,12 @@ Received from an OSC app/device at : <div id="status"></div>
     });
 
     socket.on('message', function(obj) {
-        var status = document.getElementById("status");
-        status.innerHTML = obj[0];
-        console.log(obj);
+        const status = document.getElementById("log");
+        const newPtag = document.createElement('p')
+        const newContent = document.createTextNode(obj + '\n\r')
+        newPtag.appendChild(newContent);
+        status.appendChild(newPtag);
+        console.log('Message: ', obj[0], obj);
     });
 </script>
 
