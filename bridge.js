@@ -1,20 +1,21 @@
-/* const WebSocket = require('ws')
+import { Server as WSServer } from "socket.io";
+import { Client, Server } from "node-osc"
+import detectIsOnGlitch  from 'detect-is-on-glitch'
 
-const wss = new WebSocket.Server({ port: 8080 })
+detectIsOnGlitch().then((isOnGlitch) => {
+  if (isOnGlitch) {
+    console.log('is on glitch!');
+  } else {
+    console.log('somewhere else!');
+  }
+});
 
-wss.on('connection', (ws) => {
-  ws.on('message', (message) => {
-    console.log(`Received message => ${message}`)
-  })
-  ws.send('ho!')
-})
+console.log('OSC-Relay 0.0.1')
+console.log('--------------------')
 
-*/
-
-const options = { /* ... */ };
-const io = require("socket.io")(3030, options);
-var osc = require('node-osc')
-
+const io = new WSServer(3030, {
+  // ...
+});
 
 
 io.on("connect", () => {
@@ -26,17 +27,35 @@ io.on("connect", () => {
 });
 
 
+const OSCServerData = {
+  server: {
+    port: 3333,
+    host: "127.0.0.1"
+  },
+  client: {
+    port: 3334,
+    host: "127.0.0.1"
+  }
+}
 
-var oscServer, oscClient;
+console.log('Starting OSC Server…')
+console.log('--------------------')
+const oscServer = new Server(OSCServerData.server.port, OSCServerData.server.host , () => {
+  console.log('OSC Server is listening')
+  console.log('--------------------')
+  console.log('Server configuration:', OSCServerData)
+});
+
+const oscClient = new Client(OSCServerData.client.host, OSCServerData.client.port)
+
 
 
 io.on('connection', function (socket) {
   console.log('a user connected');
 
   socket.on('config', function (obj) {
-    console.log('config', obj);
-    oscServer = new osc.Server(obj.server.port, obj.server.host);
-    oscClient = new osc.Client(obj.client.host, obj.client.port);
+
+    // console.log('config', obj);
 
     oscClient.send('/status', socket.id + ' connected');
 
@@ -52,7 +71,8 @@ io.on('connection', function (socket) {
     socket.send(toSend)
   });
   socket.on("disconnect", function () {
-    oscServer.kill();
+    // oscServer.kill();
+    console.log('client disconnected');
   })
 });
 
