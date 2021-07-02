@@ -45,12 +45,12 @@ const WSServerOptions = {
 
 
 function runGlitchServer() {
-  const io = new WSServer(3030, WSServerOptions);
+  const io = new WSServer(3000, WSServerOptions);
   io.on("connect", () => {
     io.send("Connected a User to Server");
   });
   io.on('connection', function (socket) {
-    console.log('a user connected');
+    console.log('a user connected', socket);
     socket.on('message', function (obj) {
       const toSend = obj.split(' ');
       console.log('got message', toSend);
