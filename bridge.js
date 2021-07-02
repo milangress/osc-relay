@@ -1,6 +1,7 @@
 import { Server as WSServer } from "socket.io";
 import { Client, Server } from "node-osc"
 import detectIsOnGlitch  from 'detect-is-on-glitch'
+import { io as ioClient } from "socket.io-client";
 
 detectIsOnGlitch().then((isOnGlitch) => {
   console.log('OSC-Relay 0.0.1')
@@ -10,7 +11,7 @@ detectIsOnGlitch().then((isOnGlitch) => {
     runGlitchServer()
   } else {
     console.log('-- Detected -- LOCAL -- Environment!');
-    runLocalServer()
+    runLocalRelayServer()
   }
 });
 
@@ -52,7 +53,8 @@ function runGlitchServer() {
   io.on('connection', function (socket) {
     console.log('a user connected', socket);
     socket.on('message', function (obj) {
-      const toSend = obj.split(' ');
+      const stringObj = obj + ''
+      const toSend = stringObj.split(' ');
       console.log('got message', toSend);
       socket.send(toSend)
     });
@@ -66,9 +68,6 @@ function runLocalServer() {
   console.log('--------------------')
 
   const io = new WSServer(3030, WSServerOptions);
-
-
-
 
   io.on("connect", () => {
     // either with send()
@@ -117,4 +116,48 @@ function runLocalServer() {
   });
 
 
+}
+
+
+
+
+function runLocalRelayServer() {
+  console.log('Starting local Relay Server')
+  console.log('--------------------')
+
+  const socket = new ioClient('https://osc-relay.glitch.me');
+
+
+  socket.on("connect", () => {
+    // either with send()
+    socket.send("Connected a Local Relay server to Server");
+  });
+
+
+  console.log('Starting OSC Server…')
+  console.log('--------------------')
+  const oscServer = new Server(OSCServerData.server.port, OSCServerData.server.host, () => {
+    console.log('OSC Server is listening')
+    console.log('--------------------')
+    console.log('Server configuration:', OSCServerData)
+  });
+
+  const oscClient = new Client(OSCServerData.client.host, OSCServerData.client.port)
+
+  oscServer.on('message', function (msg, rinfo) {
+    socket.emit('message', msg);
+    console.log('sent OSC message to WS', msg, rinfo);
+  });
+
+  socket.on('message', function (obj) {
+    const stringObj = obj + ''
+    const toSend = stringObj.split(' ');
+    oscClient.send(...toSend);
+    console.log('sent WS message to OSC', toSend);
+    socket.send(toSend)
+  });
+  socket.on("disconnect", function () {
+    // oscServer.kill();
+    console.log('client disconnected');
+  })
 }
