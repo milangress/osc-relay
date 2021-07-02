@@ -4,14 +4,14 @@ import detectIsOnGlitch  from 'detect-is-on-glitch'
 import { io as ioClient } from "socket.io-client";
 
 detectIsOnGlitch().then((isOnGlitch) => {
-  console.log('OSC-Relay 0.0.1')
+  console.log('OSC-Relay 2.0.1')
   console.log('--------------------')
   if (isOnGlitch) {
     console.log('-- Detected -- GLITCH -- Environment!');
     runGlitchServer()
   } else {
     console.log('-- Detected -- LOCAL -- Environment!');
-    runLocalRelayServer()
+    runLocalServer()
   }
 });
 
