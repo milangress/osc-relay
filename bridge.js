@@ -56,9 +56,18 @@ function runGlitchServer() {
       const stringObj = obj + ''
       const toSend = stringObj.split(' ');
       console.log('got message', toSend);
-      socket.send(toSend)
+      io.sockets.emit('message', toSend)
     });
   })
+  var clients = 0;
+  io.on('connection', function(socket) {
+    clients++;
+    io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
+    socket.on('disconnect', function () {
+      clients--;
+      io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
+    });
+  });
 }
 
 
