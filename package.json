@@ -2,10 +2,10 @@
 	"name": "osc-relay",
 	"description": "OSC",
 	"scripts": {
-		"start": "node bridge.js"
+		"start": "DEBUG=* node bridge.js"
 	},
-	"engines" : {
-		"node" : ">=14"
+	"engines": {
+		"node": ">=14"
 	},
 	"type": "module",
 	"version": "0.0.1",
