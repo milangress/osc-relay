@@ -51,7 +51,7 @@ function runGlitchServer() {
     io.send("Connected a User to Server");
   });
   io.on('connection', function (socket) {
-    console.log('a user connected', socket);
+    console.log('a user connected');
     socket.on('message', function (obj) {
       const stringObj = obj + ''
       const toSend = stringObj.split(' ');
@@ -150,11 +150,12 @@ function runLocalRelayServer() {
   });
 
   socket.on('message', function (obj) {
-    const stringObj = obj + ''
+    console.log(obj)
+    /*const stringObj = obj + ''
     const toSend = stringObj.split(' ');
     oscClient.send(...toSend);
     console.log('sent WS message to OSC', toSend);
-    socket.send(toSend)
+    socket.send(toSend)*/
   });
   socket.on("disconnect", function () {
     // oscServer.kill();
