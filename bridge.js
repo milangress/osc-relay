@@ -30,7 +30,14 @@ const OSCServerData = {
 const WSServerOptions = {
   'cors': {
     'methods': ['GET', 'PATCH', 'POST', 'PUT'],
-    'origin': ['127.0.0.1:3030', 'http://www.re-set.space', /\.glitch\.me$/],
+    'origin': ['127.0.0.1:3030',
+      'http://www.re-set.space',
+      /\.glitch\.me$/,
+      'https://osc-relay.glitch.me',
+      'http://osc-relay.glitch.me',
+      'https://osc-client.glitch.me',
+      'http://osc-client.glitch.me'
+    ],
     'allowedHeaders': ["Origin", "X-Requested-With", "Content-Type", "Accept"],
     'credentials': true
   }
