@@ -4,6 +4,9 @@
 	"scripts": {
 		"start": "node bridge.js"
 	},
+	"engines" : {
+		"node" : ">=12.22"
+	},
 	"type": "module",
 	"version": "0.0.1",
 	"dependencies": {
