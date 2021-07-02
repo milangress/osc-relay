@@ -42,6 +42,14 @@ function runGlitchServer() {
   io.on("connect", () => {
     io.send("Connected a User to Server");
   });
+  io.on('connection', function (socket) {
+    console.log('a user connected');
+    socket.on('message', function (obj) {
+      const toSend = obj.split(' ');
+      console.log('got message', toSend);
+      socket.send(toSend)
+    });
+  })
 }
 
 
