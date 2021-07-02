@@ -39,6 +39,9 @@ const WSServerOptions = {
 
 function runGlitchServer() {
   const io = new WSServer(3030, WSServerOptions);
+  io.on("connect", () => {
+    io.send("Connected a User to Server");
+  });
 }
 
 
