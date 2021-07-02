@@ -87,20 +87,19 @@ function runLocalServer() {
   });
 
 
-  console.log('Starting OSC Server…')
+  console.log('OSC Server Starting…')
   console.log('--------------------')
   const oscServer = new Server(OSCServerData.server.port, OSCServerData.server.host, () => {
     console.log('OSC Server is listening')
     console.log('--------------------')
-    console.log('Server configuration:', OSCServerData)
+    console.log('OSC Server configuration:', OSCServerData)
   });
 
   const oscClient = new Client(OSCServerData.client.host, OSCServerData.client.port)
 
 
   io.on('connection', function (socket) {
-    console.log('a user connected');
-
+    console.log('A new user connected:', socket.id);
     socket.on('config', function (obj) {
 
       // console.log('config', obj);
