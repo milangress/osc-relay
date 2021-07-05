@@ -8,7 +8,7 @@
 		"node": ">=14"
 	},
 	"type": "module",
-	"version": "0.0.1",
+	"version": "2.0.1",
 	"dependencies": {
 		"detect-is-on-glitch": "^1.0.1",
 		"node-osc": "^6.0.3",

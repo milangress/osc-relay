@@ -4,7 +4,8 @@ import detectIsOnGlitch  from 'detect-is-on-glitch'
 import { io as ioClient } from "socket.io-client";
 
 detectIsOnGlitch().then((isOnGlitch) => {
-  console.log('OSC-Relay 2.0.1')
+  console.log('--------------------')
+  console.log(`OSC-Relay: ${process.env.npm_package_version}`)
   console.log('--------------------')
   if (isOnGlitch) {
     console.log('-- Detected -- GLITCH -- Environment!');
