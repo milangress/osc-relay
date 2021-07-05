@@ -13,7 +13,8 @@
 		"detect-is-on-glitch": "^1.0.1",
 		"node-osc": "^6.0.3",
 		"socket.io": "^4.1.2",
-		"socket.io-client": "^4.1.2"
+		"socket.io-client": "^4.1.2",
+		"terminal-kit": "^2.1.5"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.9"
