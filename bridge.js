@@ -5,7 +5,7 @@ import { io as ioClient } from "socket.io-client"
 import terminal from 'terminal-kit'
 const term = terminal.terminal;
 
-function divider(num = 20) {
+function divider(num = 50) {
   const content = [...Array(num).keys()].map(x => '-').join('')
   term.yellow(content + '\n')
 }
