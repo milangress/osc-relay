@@ -1,17 +1,25 @@
-import { Server as WSServer } from "socket.io";
+import { Server as WSServer } from "socket.io"
 import { Client, Server } from "node-osc"
 import detectIsOnGlitch  from 'detect-is-on-glitch'
-import { io as ioClient } from "socket.io-client";
+import { io as ioClient } from "socket.io-client"
+import terminal from 'terminal-kit'
+const term = terminal.terminal;
+
+function divider(num = 20) {
+  const content = [...Array(num).keys()].map(x => '-').join('')
+  term.yellow(content + '\n')
+}
 
 detectIsOnGlitch().then((isOnGlitch) => {
-  console.log('--------------------')
-  console.log(`OSC-Relay: ${process.env.npm_package_version}`)
-  console.log('--------------------')
+  divider()
+  term.bold(`OSC-Relay: ${process.env.npm_package_version} \n`)
+  term.bold('05.07.2021 \n')
+  divider()
   if (isOnGlitch) {
-    console.log('-- Detected -- GLITCH -- Environment!');
+    term.red('-- Detected -- GLITCH -- Environment!\n');
     runGlitchServer()
   } else {
-    console.log('-- Detected -- LOCAL -- Environment!');
+    term.red('-- Detected -- LOCAL -- Environment!\n');
     runLocalServer()
   }
 });
@@ -75,7 +83,7 @@ function runGlitchServer() {
 
 function runLocalServer() {
   console.log('Starting local Server')
-  console.log('--------------------')
+  divider()
 
   const io = new WSServer(3030, WSServerOptions);
 
@@ -89,10 +97,10 @@ function runLocalServer() {
 
 
   console.log('OSC Server Starting…')
-  console.log('--------------------')
+  divider()
   const oscServer = new Server(OSCServerData.server.port, OSCServerData.server.host, () => {
-    console.log('OSC Server is listening')
-    console.log('--------------------')
+    term.green('OSC Server is listening \n')
+    divider()
     console.log('OSC Server configuration:', OSCServerData)
   });
 
@@ -132,7 +140,7 @@ function runLocalServer() {
 
 function runLocalRelayServer() {
   console.log('Starting local Relay Server')
-  console.log('--------------------')
+  divider()
 
   const socket = new ioClient('https://osc-relay.glitch.me');
 
@@ -144,10 +152,10 @@ function runLocalRelayServer() {
 
 
   console.log('Starting OSC Server…')
-  console.log('--------------------')
+  divider()
   const oscServer = new Server(OSCServerData.server.port, OSCServerData.server.host, () => {
     console.log('OSC Server is listening')
-    console.log('--------------------')
+    divider()
     console.log('Server configuration:', OSCServerData)
   });
 
