@@ -41,6 +41,8 @@ const WSServerOptions = {
   'cors': {
     'methods': ['GET', 'PATCH', 'POST', 'PUT'],
     'origin': ['127.0.0.1:3030',
+      'http://localhost',
+      'http://localhost:5000',
       'http://www.re-set.space',
       /\.glitch\.me$/,
       'https://osc-relay.glitch.me',
@@ -117,13 +119,13 @@ function runLocalServer() {
 
       oscServer.on('message', function (msg, rinfo) {
         socket.emit('message', msg);
-        console.log('sent OSC message to WS', msg, rinfo);
+        // console.log('sent OSC message to WS', msg, rinfo);
       });
     });
     socket.on('message', function (obj) {
       var toSend = obj.split(' ');
       oscClient.send(...toSend);
-      console.log('sent WS message to OSC', toSend);
+      // console.log('sent WS message to OSC', toSend);
       socket.send(toSend)
     });
     socket.on("disconnect", function () {
