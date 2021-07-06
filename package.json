@@ -2,8 +2,8 @@
 	"name": "osc-relay",
 	"description": "OSC",
 	"scripts": {
-		"start": "node bridge.js",
-		"forever": "nodemon -x 'node bridge.js || (sleep 10; touch app.js)'"
+		"start": "nodemon -x 'node bridge.js || (sleep 10; touch app.js)'",
+		"single": "node bridge.js"
 	},
 	"engines": {
 		"node": ">=14"
