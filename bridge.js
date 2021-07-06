@@ -118,15 +118,17 @@ function runLocalServer() {
       oscClient.send('/status', socket.id + ' connected');
 
       oscServer.on('message', function (msg, rinfo) {
-        socket.emit('message', msg);
+        socket.broadcast.emit('message', msg);
+        // io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
+        // socket.emit('message', msg);
         // console.log('sent OSC message to WS', msg, rinfo);
       });
     });
     socket.on('message', function (obj) {
-      var toSend = obj.split(' ');
-      oscClient.send(...toSend);
-      // console.log('sent WS message to OSC', toSend);
-      socket.send(toSend)
+      // var toSend = obj.split(' ');
+      // oscClient.send(...toSend);
+      console.log('sent WS message to OSC', toSend);
+      // socket.send(toSend)
     });
     socket.on("disconnect", function () {
       // oscServer.kill();
